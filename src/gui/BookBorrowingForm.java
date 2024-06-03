@@ -1,18 +1,24 @@
 package gui;
 
-import javax.swing.*;
+import database.DatabaseConnection;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-import database.DatabaseConnection;
-import models.Borrower;
+import javax.swing.*;
 
 public class BookBorrowingForm extends JFrame {
     private JTextField borrowerIdField, bookIdField;
     private JLabel messageLabel;
 
     public BookBorrowingForm() {
+
+        if (!LoginForm.isLoggedIn) {
+            JOptionPane.showMessageDialog(null, "You must log in first!");
+            dispose();
+            return;
+        }
+        
         setTitle("Book Borrowing");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -10,6 +10,7 @@ public class LoginForm extends JFrame {
     private JTextField emailField;
     private JPasswordField passwordField;
     private JLabel messageLabel;
+    public static boolean isLoggedIn = false; 
 
     public LoginForm() {
         setTitle("Login Form");
@@ -47,6 +48,7 @@ public class LoginForm extends JFrame {
         Login login = new Login(email, new String(password));
 
         if (login.authenticate()) {
+            isLoggedIn = true;
             messageLabel.setText("Login successful");
             // Proceed to the next step in your application
         } else {

@@ -1,14 +1,21 @@
 package gui;
 
-import javax.swing.*;
+import database.DatabaseConnection;
 import java.awt.*;
 import java.sql.*;
-import database.DatabaseConnection;
+import javax.swing.*;
 
 public class BorrowerListForm extends JFrame {
     private JTable borrowerTable;
 
     public BorrowerListForm() {
+
+        if (!LoginForm.isLoggedIn) {
+            JOptionPane.showMessageDialog(null, "You must log in first!");
+            dispose();
+            return;
+        }
+
         setTitle("Borrower List");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

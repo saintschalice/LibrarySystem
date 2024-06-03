@@ -12,6 +12,12 @@ public class PenaltyForm extends JFrame {
     private JLabel messageLabel;
 
     public PenaltyForm() {
+
+        if (!LoginForm.isLoggedIn) {
+            JOptionPane.showMessageDialog(null, "You must log in first!");
+            dispose();
+            return;
+        }
         setTitle("Penalty Payment");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

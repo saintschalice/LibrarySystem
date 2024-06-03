@@ -29,35 +29,55 @@ public class Main extends JFrame {
         bookListButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new BookListForm().setVisible(true);
+                if (LoginForm.isLoggedIn) {
+                    new BookListForm().setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "You must log in first!");
+                }
             }
         });
 
         borrowerListButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new BorrowerListForm().setVisible(true);
+                if (LoginForm.isLoggedIn) {
+                    new BorrowerListForm().setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "You must log in first!");
+                }
             }
         });
 
         bookBorrowingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new BookBorrowingForm().setVisible(true);
+                if (LoginForm.isLoggedIn) {
+                    new BookBorrowingForm().setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "You must log in first!");
+                }
             }
         });
 
         bookReturningButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new BookReturningForm().setVisible(true);
+                if (LoginForm.isLoggedIn) {
+                    new BookReturningForm().setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "You must log in first!");
+                }
             }
         });
 
         penaltyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new PenaltyForm().setVisible(true);
+                if (LoginForm.isLoggedIn) {
+                    new PenaltyForm().setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "You must log in first!");
+                }
             }
         });
 

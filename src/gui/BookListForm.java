@@ -9,6 +9,13 @@ public class BookListForm extends JFrame {
     private JTable bookTable;
 
     public BookListForm() {
+
+        if (!LoginForm.isLoggedIn) {
+            JOptionPane.showMessageDialog(null, "You must log in first!");
+            dispose();
+            return;
+        }
+
         setTitle("Book List");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
