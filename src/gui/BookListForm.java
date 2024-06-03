@@ -32,7 +32,7 @@ public class BookListForm extends JFrame {
     private Object[][] fetchBookData() {
         try (Connection conn = DatabaseConnection.getConnection()) {
             String query = "SELECT title, isbn, category, author, copyright_year, publisher, status FROM books";
-            PreparedStatement stmt = conn.prepareStatement(query);
+            PreparedStatement stmt = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet rs = stmt.executeQuery();
             rs.last();
             int rowCount = rs.getRow();
@@ -52,6 +52,7 @@ public class BookListForm extends JFrame {
             return data;
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error fetching data from the database: " + e.getMessage());
             return new Object[0][0];
         }
     }

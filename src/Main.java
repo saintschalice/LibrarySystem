@@ -101,8 +101,12 @@ public class Main extends JFrame {
         bookBorrowingButton.setVisible(isLoggedIn);
         bookReturningButton.setVisible(isLoggedIn);
         penaltyButton.setVisible(isLoggedIn);
+    
+        // Remove login and register buttons if logged in
+        loginButton.setVisible(!isLoggedIn);
+        registerButton.setVisible(!isLoggedIn);
     }
-
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             Main mainFrame = new Main();

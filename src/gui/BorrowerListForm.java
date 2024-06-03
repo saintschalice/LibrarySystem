@@ -21,7 +21,7 @@ public class BorrowerListForm extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        String[] columnNames = {"Name", "Borrower Type", "Student ID", "Employee ID", "Year Level", "Section", "Department"};
+        String[] columnNames = {"First Name", "Last Name", "Borrower Type", "Student ID", "Employee ID", "Year Level", "Section", "Department"};
         Object[][] data = fetchBorrowerData();
 
         borrowerTable = new JTable(data, columnNames);
@@ -31,27 +31,29 @@ public class BorrowerListForm extends JFrame {
 
     private Object[][] fetchBorrowerData() {
         try (Connection conn = DatabaseConnection.getConnection()) {
-            String query = "SELECT name, borrower_type, student_id, employee_id, year_level, section, department FROM borrowers";
-            PreparedStatement stmt = conn.prepareStatement(query);
+            String query = "SELECT first_name, last_name, borrower_type, student_id, employee_id, year_level, section, department FROM borrowers";
+            PreparedStatement stmt = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet rs = stmt.executeQuery();
             rs.last();
             int rowCount = rs.getRow();
             rs.beforeFirst();
-            Object[][] data = new Object[rowCount][7];
+            Object[][] data = new Object[rowCount][8];
             int rowIndex = 0;
             while (rs.next()) {
-                data[rowIndex][0] = rs.getString("name");
-                data[rowIndex][1] = rs.getString("borrower_type");
-                data[rowIndex][2] = rs.getString("student_id");
-                data[rowIndex][3] = rs.getString("employee_id");
-                data[rowIndex][4] = rs.getInt("year_level");
-                data[rowIndex][5] = rs.getString("section");
-                data[rowIndex][6] = rs.getString("department");
+                data[rowIndex][0] = rs.getString("first_name");
+                data[rowIndex][1] = rs.getString("last_name");
+                data[rowIndex][2] = rs.getString("borrower_type");
+                data[rowIndex][3] = rs.getString("student_id");
+                data[rowIndex][4] = rs.getString("employee_id");
+                data[rowIndex][5] = rs.getInt("year_level");
+                data[rowIndex][6] = rs.getString("section");
+                data[rowIndex][7] = rs.getString("department");
                 rowIndex++;
             }
             return data;
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error fetching data from the database: " + e.getMessage());
             return new Object[0][0];
         }
     }
