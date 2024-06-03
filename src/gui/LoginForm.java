@@ -4,11 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.*;
-import database.DatabaseConnection;
+import models.Login;
 
 public class LoginForm extends JFrame {
-    private JTextField usernameField;
+    private JTextField emailField;
     private JPasswordField passwordField;
     private JLabel messageLabel;
 
@@ -20,8 +19,8 @@ public class LoginForm extends JFrame {
 
         setLayout(new GridLayout(3, 2));
 
-        JLabel usernameLabel = new JLabel("Username:");
-        usernameField = new JTextField();
+        JLabel emailLabel = new JLabel("Email:");
+        emailField = new JTextField();
         JLabel passwordLabel = new JLabel("Password:");
         passwordField = new JPasswordField();
         messageLabel = new JLabel("");
@@ -34,8 +33,8 @@ public class LoginForm extends JFrame {
             }
         });
 
-        add(usernameLabel);
-        add(usernameField);
+        add(emailLabel);
+        add(emailField);
         add(passwordLabel);
         add(passwordField);
         add(loginButton);
@@ -43,24 +42,15 @@ public class LoginForm extends JFrame {
     }
 
     private void loginUser() {
-        String username = usernameField.getText();
+        String email = emailField.getText();
         char[] password = passwordField.getPassword();
-    
-        try (Connection connection = DatabaseConnection.getConnection()) {
-            String query = "SELECT * FROM Users WHERE username = ? AND password = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, username);
-            statement.setString(2, new String(password));
-    
-            ResultSet resultSet = statement.executeQuery();
-    
-            if (resultSet.next()) {
-                // User exists, login successful
-            } else {
-                // User does not exist, login failed
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        Login login = new Login(email, new String(password));
+
+        if (login.authenticate()) {
+            messageLabel.setText("Login successful");
+            // Proceed to the next step in your application
+        } else {
+            messageLabel.setText("Login failed");
         }
     }
 
