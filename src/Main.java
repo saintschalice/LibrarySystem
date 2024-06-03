@@ -10,6 +10,14 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class Main extends JFrame {
+    private JButton bookListButton;
+    private JButton borrowerListButton;
+    private JButton bookBorrowingButton;
+    private JButton bookReturningButton;
+    private JButton penaltyButton;
+    private JButton loginButton;
+    private JButton registerButton;
+
     public Main() {
         setTitle("Library System");
         setSize(400, 300);
@@ -18,66 +26,46 @@ public class Main extends JFrame {
 
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
-        JButton bookListButton = new JButton("Book List");
-        JButton borrowerListButton = new JButton("Borrower List");
-        JButton bookBorrowingButton = new JButton("Book Borrowing");
-        JButton bookReturningButton = new JButton("Book Returning");
-        JButton penaltyButton = new JButton("Penalty");
-        JButton loginButton = new JButton("Login");
-        JButton registerButton = new JButton("Register");
+        bookListButton = new JButton("Book List");
+        borrowerListButton = new JButton("Borrower List");
+        bookBorrowingButton = new JButton("Book Borrowing");
+        bookReturningButton = new JButton("Book Returning");
+        penaltyButton = new JButton("Penalty");
+        loginButton = new JButton("Login");
+        registerButton = new JButton("Register");
 
         bookListButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (LoginForm.isLoggedIn) {
-                    new BookListForm().setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(null, "You must log in first!");
-                }
+                new BookListForm().setVisible(true);
             }
         });
 
         borrowerListButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (LoginForm.isLoggedIn) {
-                    new BorrowerListForm().setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(null, "You must log in first!");
-                }
+                new BorrowerListForm().setVisible(true);
             }
         });
 
         bookBorrowingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (LoginForm.isLoggedIn) {
-                    new BookBorrowingForm().setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(null, "You must log in first!");
-                }
+                new BookBorrowingForm().setVisible(true);
             }
         });
 
         bookReturningButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (LoginForm.isLoggedIn) {
-                    new BookReturningForm().setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(null, "You must log in first!");
-                }
+                new BookReturningForm().setVisible(true);
             }
         });
 
         penaltyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (LoginForm.isLoggedIn) {
-                    new PenaltyForm().setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(null, "You must log in first!");
-                }
+                new PenaltyForm().setVisible(true);
             }
         });
 
@@ -94,20 +82,36 @@ public class Main extends JFrame {
                 new RegisterForm().setVisible(true);
             }
         });
-       
 
+        add(loginButton);
+        add(registerButton);
         add(bookListButton);
         add(borrowerListButton);
         add(bookBorrowingButton);
         add(bookReturningButton);
         add(penaltyButton);
-        add(loginButton);
-        add(registerButton);
+
+        updateButtonVisibility();
+    }
+
+    private void updateButtonVisibility() {
+        boolean isLoggedIn = LoginForm.isLoggedIn;
+        bookListButton.setVisible(isLoggedIn);
+        borrowerListButton.setVisible(isLoggedIn);
+        bookBorrowingButton.setVisible(isLoggedIn);
+        bookReturningButton.setVisible(isLoggedIn);
+        penaltyButton.setVisible(isLoggedIn);
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new Main().setVisible(true);
+            Main mainFrame = new Main();
+            mainFrame.setVisible(true);
+
+            // Add a listener to update button visibility after login
+            LoginForm.addLoginListener(() -> {
+                mainFrame.updateButtonVisibility();
+            });
         });
     }
 }

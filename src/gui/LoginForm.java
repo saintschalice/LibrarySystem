@@ -11,6 +11,7 @@ public class LoginForm extends JFrame {
     private JPasswordField passwordField;
     private JLabel messageLabel;
     public static boolean isLoggedIn = false; 
+    private static Runnable loginListener;
 
     public LoginForm() {
         setTitle("Login Form");
@@ -26,8 +27,6 @@ public class LoginForm extends JFrame {
         passwordField = new JPasswordField();
         messageLabel = new JLabel("");
         JButton loginButton = new JButton("Login");
-
-        
 
         loginButton.addActionListener(new ActionListener() {
             @Override
@@ -52,10 +51,17 @@ public class LoginForm extends JFrame {
         if (login.authenticate()) {
             isLoggedIn = true;
             messageLabel.setText("Login successful");
-            // Proceed to the next step in your application
+            if (loginListener != null) {
+                loginListener.run();
+            }
+            dispose();
         } else {
             messageLabel.setText("Login failed");
         }
+    }
+
+    public static void addLoginListener(Runnable listener) {
+        loginListener = listener;
     }
 
     public static void main(String[] args) {
