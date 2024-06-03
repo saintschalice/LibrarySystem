@@ -27,6 +27,8 @@ public class LoginForm extends JFrame {
         messageLabel = new JLabel("");
         JButton loginButton = new JButton("Login");
 
+        
+
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
